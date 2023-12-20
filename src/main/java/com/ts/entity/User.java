@@ -25,9 +25,8 @@ public class User {
 	
 	private String firstName;
 	private String lastName;
-	private String username;
 	private String email;
-	private String passowrd;
+	private String password;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -35,23 +34,21 @@ public class User {
 
 	public User() {}
 
-	public User(Long id, String firstName, String lastName, String username, String email, String passowrd,
+	public User(Long id, String firstName, String lastName, String email, String password,
 			Set<com.ts.entity.Role> roles) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.username = username;
 		this.email = email;
-		this.passowrd = passowrd;
+		this.password = password;
 		this.roles = roles;
 	}
 
-	public User(String firstName, String lastName, String username, String email, String passowrd) {
+	public User(String firstName, String lastName, String email, String password) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.username = username;
 		this.email = email;
-		this.passowrd = passowrd;
+		this.password = password;
 	}
 
 	public Long getId() {
@@ -78,13 +75,6 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
 
 	public String getEmail() {
 		return email;
@@ -94,12 +84,12 @@ public class User {
 		this.email = email;
 	}
 
-	public String getPassowrd() {
-		return passowrd;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setPassowrd(String passowrd) {
-		this.passowrd = passowrd;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public Set<Role> getRoles() {
@@ -108,12 +98,6 @@ public class User {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
-	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", username=" + username
-				+ ", email=" + email + ", passowrd=" + passowrd + ", roles=" + roles + "]";
 	}
 	
 }
