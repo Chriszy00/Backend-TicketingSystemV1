@@ -14,6 +14,13 @@ public class TicketService {
 	@Autowired
 	TicketRepository ticketRepository;
 	
+//    private final TicketRepository ticketRepository;
+
+    public void saveTicket(Ticket ticket) {
+        // Add any additional business logic or validation if needed
+        ticketRepository.save(ticket);
+    }
+    
 	public List<Ticket> getTickets() {
 		return ticketRepository.findAll();
 	}

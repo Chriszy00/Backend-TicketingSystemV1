@@ -1,9 +1,17 @@
 package com.ts.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,28 +26,45 @@ public class Ticket {
 	
 	private String description;
 	
+    @ManyToOne
+    @JoinColumn(name = "user_id")
 	private User creator;
-	
-	private String priority;
-	
-	private String category;
 	
 	private String status;
 	
-	private String photo;
+	private String photoURL;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "ticket_category", joinColumns = @JoinColumn(name = "ticket_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+	private Set<Category> category = new HashSet<>();
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "ticket_priority", joinColumns = @JoinColumn(name = "ticket_id"), inverseJoinColumns = @JoinColumn(name = "priority_id"))
+	private Set<Priority> priority = new HashSet<>();
+
 
 	public Ticket() {}
-	
-	public Ticket(Long ticketId, String title, String description, User creator, String priority, String category,
-			String status, String photo) {
+
+	public Ticket(Long ticketId, String title, String description, User creator, String status, String photoURL,
+			Set<Category> category, Set<Priority> priority) {
 		this.ticketId = ticketId;
 		this.title = title;
 		this.description = description;
 		this.creator = creator;
-		this.priority = priority;
-		this.category = category;
 		this.status = status;
-		this.photo = photo;
+		this.photoURL = photoURL;
+		this.category = category;
+		this.priority = priority;
+	}
+
+
+	public Ticket(Long ticketId, String title, String description, User creator, String status, String photoURL) {
+		this.ticketId = ticketId;
+		this.title = title;
+		this.description = description;
+		this.creator = creator;
+		this.status = status;
+		this.photoURL = photoURL;
 	}
 
 	public Long getTicketId() {
@@ -74,22 +99,6 @@ public class Ticket {
 		this.creator = creator;
 	}
 
-	public String getPriority() {
-		return priority;
-	}
-
-	public void setPriority(String priority) {
-		this.priority = priority;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
 	public String getStatus() {
 		return status;
 	}
@@ -98,16 +107,28 @@ public class Ticket {
 		this.status = status;
 	}
 
-	public String getPhoto() {
-		return photo;
+	public String getPhotoURL() {
+		return photoURL;
 	}
 
-	public void setPhoto(String photo) {
-		this.photo = photo;
+	public void setPhotoURL(String photoURL) {
+		this.photoURL = photoURL;
 	}
-	
-	
-	
-	
+
+	public Set<Category> getCategory() {
+		return category;
+	}
+
+	public void setCategory(Set<Category> category) {
+		this.category = category;
+	}
+
+	public Set<Priority> getPriority() {
+		return priority;
+	}
+
+	public void setPriority(Set<Priority> priority) {
+		this.priority = priority;
+	}
 	
 }
