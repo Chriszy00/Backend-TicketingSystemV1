@@ -26,6 +26,14 @@ public class Ticket {
 	
 	private String description;
 	
+	@ManyToOne
+	@JoinColumn(name = "category_id")
+	private Category category_id;
+	
+	@ManyToOne
+	@JoinColumn(name = "priority_id")
+	private Priority priority_id;
+	
     @ManyToOne
     @JoinColumn(name = "user_id")
 	private User creator;
@@ -34,9 +42,9 @@ public class Ticket {
 	
 	private String photoURL;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "ticket_category", joinColumns = @JoinColumn(name = "ticket_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-	private Set<Category> category = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "ticket_category", joinColumns = @JoinColumn(name = "ticket_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories = new HashSet<>();
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "ticket_priority", joinColumns = @JoinColumn(name = "ticket_id"), inverseJoinColumns = @JoinColumn(name = "priority_id"))
@@ -46,17 +54,16 @@ public class Ticket {
 	public Ticket() {}
 
 	public Ticket(Long ticketId, String title, String description, User creator, String status, String photoURL,
-			Set<Category> category, Set<Priority> priority) {
+			Set<Category> categories, Set<Priority> priority) {
 		this.ticketId = ticketId;
 		this.title = title;
 		this.description = description;
 		this.creator = creator;
 		this.status = status;
 		this.photoURL = photoURL;
-		this.category = category;
+		this.categories = categories;
 		this.priority = priority;
 	}
-
 
 	public Ticket(Long ticketId, String title, String description, User creator, String status, String photoURL) {
 		this.ticketId = ticketId;
@@ -65,6 +72,35 @@ public class Ticket {
 		this.creator = creator;
 		this.status = status;
 		this.photoURL = photoURL;
+	}
+	
+	public Ticket(Long ticketId, String title, String description, Category category_id, Priority priority_id, User creator, String status,
+			String photoURL, Set<Category> categories, Set<Priority> priority) {
+		this.ticketId = ticketId;
+		this.title = title;
+		this.description = description;
+		this.category_id = category_id;
+		this.priority_id = priority_id;
+		this.creator = creator;
+		this.status = status;
+		this.photoURL = photoURL;
+		this.categories = categories;
+		this.priority = priority;
+	}
+
+	
+	public Ticket(Long ticketId, String title, String description, Category category_id, Priority priority_id, User creator, String status,
+			String photoURL, Set<Category> categories) {
+		super();
+		this.ticketId = ticketId;
+		this.title = title;
+		this.description = description;
+		this.category_id = category_id;
+		this.priority_id = priority_id;
+		this.creator = creator;
+		this.status = status;
+		this.photoURL = photoURL;
+		this.categories = categories;
 	}
 
 	public Long getTicketId() {
@@ -91,6 +127,22 @@ public class Ticket {
 		this.description = description;
 	}
 
+	public Category getCategory_id() {
+		return category_id;
+	}
+
+	public void setCategory_id(Category category_id) {
+		this.category_id = category_id;
+	}
+	
+	public Priority getPriority_id() {
+		return priority_id;
+	}
+
+	public void setPriority_id(Priority priority_id) {
+		this.priority_id = priority_id;
+	}
+
 	public User getCreator() {
 		return creator;
 	}
@@ -115,12 +167,12 @@ public class Ticket {
 		this.photoURL = photoURL;
 	}
 
-	public Set<Category> getCategory() {
-		return category;
+	public Set<Category> getCategories() {
+		return categories;
 	}
 
-	public void setCategory(Set<Category> category) {
-		this.category = category;
+	public void setCategories(Set<Category> categories) {
+		this.categories = categories;
 	}
 
 	public Set<Priority> getPriority() {

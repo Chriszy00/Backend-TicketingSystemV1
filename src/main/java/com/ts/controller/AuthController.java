@@ -94,8 +94,8 @@ public class AuthController {
         // Validate input data...
 
         // Check if the selected role is valid
-    	Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-                .orElseThrow(() -> new AppException("User Role not set."));
+        Role userRole = roleRepository.findByName(userRegistrationDTO.getRole())
+                .orElseThrow(() -> new AppException("Invalid role."));
 
         // Check if the email address is already taken
         if (userRepository.existsByEmail(userRegistrationDTO.getEmail())) {

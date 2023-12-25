@@ -19,7 +19,7 @@ import com.ts.repository.UserRepository;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000/")
 @RequestMapping("/ticket/management")
-public class Admin_TicketController {
+public class Internal_TicketController {
 
 	@Autowired
 	UserRepository userRepository;
