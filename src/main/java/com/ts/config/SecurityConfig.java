@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
@@ -61,7 +61,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .permitAll()
                         .antMatchers("/api/auth/**").permitAll()
                         .antMatchers("/api/roles").permitAll()
+<<<<<<< HEAD
                         .antMatchers("/api/priorities").permitAll()
+=======
+                        .antMatchers("/api/web").permitAll()
+                        .antMatchers("/api/socket").permitAll()
+>>>>>>> 033103dbc98a962dad5d76cd127173948710ac0b
                         .antMatchers("/api/ticket/complaint").permitAll()
                         .antMatchers("/api/ticket/**").permitAll()
                         .antMatchers("/api/categories").permitAll()
@@ -69,6 +74,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .antMatchers("/ticket/management/{id}/assigned").permitAll()
                         .antMatchers("/ticket/management/allTickets").permitAll()
                         .antMatchers("/user/management/**").permitAll()
+                        .antMatchers("/app/**").permitAll()
+                        .antMatchers("/api/web").permitAll()
+                        .antMatchers("/api/message/convo").permitAll()
+                        .antMatchers("/ws/**").permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
