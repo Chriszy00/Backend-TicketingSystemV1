@@ -61,18 +61,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .permitAll()
                         .antMatchers("/api/auth/**").permitAll()
                         .antMatchers("/api/roles").permitAll()
-<<<<<<< HEAD
                         .antMatchers("/api/priorities").permitAll()
-=======
                         .antMatchers("/api/web").permitAll()
                         .antMatchers("/api/socket").permitAll()
->>>>>>> 033103dbc98a962dad5d76cd127173948710ac0b
                         .antMatchers("/api/ticket/complaint").permitAll()
                         .antMatchers("/api/ticket/**").permitAll()
                         .antMatchers("/api/categories").permitAll()
                         .antMatchers("/ticket/management/{id}/resolved").permitAll()
                         .antMatchers("/ticket/management/{id}/assigned").permitAll()
                         .antMatchers("/ticket/management/allTickets").permitAll()
+                        .antMatchers("/ticket/management/**").permitAll()
                         .antMatchers("/user/management/**").permitAll()
                         .antMatchers("/app/**").permitAll()
                         .antMatchers("/api/web").permitAll()

@@ -3,22 +3,23 @@ package com.ts.repository;
 import java.util.List;
 import java.util.Optional;
 
-import com.ts.entity.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.ts.entity.Ticket;
-import com.ts.entity.User;
 import org.springframework.data.jpa.repository.Query;
+
+import com.ts.entity.RoleName;
+import com.ts.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
 	Optional<User> findByEmail(String email);
 
 	Boolean existsByEmail(String email);
+	
+	List<User> findByRoles_Name(RoleName roleName);
 
 //	User findByEmail(String email);
 
-	Optional<User> findById(Long id);
+	Optional<User> findById(Long userId);
 
 	List<User> findByIdIn(List<Long> userIds);
 
