@@ -13,6 +13,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 
 @Entity
 @Table(name = "ticket")
@@ -46,7 +51,7 @@ public class Ticket {
 	
 	private String photoURL;
 	
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "ticket_category", joinColumns = @JoinColumn(name = "ticket_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
 	
@@ -54,8 +59,11 @@ public class Ticket {
 	@JoinTable(name = "ticket_priority", joinColumns = @JoinColumn(name = "ticket_id"), inverseJoinColumns = @JoinColumn(name = "priority_id"))
 	private Set<Priority> priority = new HashSet<>();
 
-
 	public Ticket() {}
+
+	public Ticket(Long ticketId) {
+		this.ticketId = ticketId;
+	}
 
 	public Ticket(Long ticketId, String title, String description, User creator, User assignedUser, String status, String photoURL,
 			Set<Category> categories, Set<Priority> priority) {
@@ -109,6 +117,18 @@ public class Ticket {
 		this.status = status;
 		this.photoURL = photoURL;
 		this.categories = categories;
+	}
+
+	public Ticket(Long ticketId, String title, String description, User creator, String status, String photoURL,
+				  Set<Category> categories, Set<Priority> priority, List<Comment> comments) {
+		this.ticketId = ticketId;
+		this.title = title;
+		this.description = description;
+		this.creator = creator;
+		this.status = status;
+		this.photoURL = photoURL;
+		this.categories = categories;
+		this.priority = priority;
 	}
 
 	public Long getTicketId() {
