@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ts.entity.Ticket;
 import com.ts.entity.User;
 import com.ts.exception.UserNotFoundException;
 import com.ts.repository.TicketRepository;
@@ -46,4 +47,9 @@ public class Admin_UserController {
 
         return "User with id: " + id + " has been deleted successfully";
     }
+    
+	@GetMapping("/allTickets")
+	public List<Ticket> getAllTickets() {
+		return ticketRepository.findAll();
+	}
 }

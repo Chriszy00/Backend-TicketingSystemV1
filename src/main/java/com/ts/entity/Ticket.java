@@ -37,6 +37,10 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "user_id")
 	private User creator;
+    
+    @ManyToOne
+    @JoinColumn(name = "assigned_user_id")
+    private User assignedUser;
 	
 	private String status;
 	
@@ -53,28 +57,30 @@ public class Ticket {
 
 	public Ticket() {}
 
-	public Ticket(Long ticketId, String title, String description, User creator, String status, String photoURL,
+	public Ticket(Long ticketId, String title, String description, User creator, User assignedUser, String status, String photoURL,
 			Set<Category> categories, Set<Priority> priority) {
 		this.ticketId = ticketId;
 		this.title = title;
 		this.description = description;
 		this.creator = creator;
+		this.assignedUser = assignedUser;
 		this.status = status;
 		this.photoURL = photoURL;
 		this.categories = categories;
 		this.priority = priority;
 	}
 
-	public Ticket(Long ticketId, String title, String description, User creator, String status, String photoURL) {
+	public Ticket(Long ticketId, String title, String description, User creator, User assignedUser, String status, String photoURL) {
 		this.ticketId = ticketId;
 		this.title = title;
 		this.description = description;
 		this.creator = creator;
+		this.assignedUser = assignedUser;
 		this.status = status;
 		this.photoURL = photoURL;
 	}
 	
-	public Ticket(Long ticketId, String title, String description, Category category_id, Priority priority_id, User creator, String status,
+	public Ticket(Long ticketId, String title, String description, Category category_id, Priority priority_id, User creator, User assignedUser, String status,
 			String photoURL, Set<Category> categories, Set<Priority> priority) {
 		this.ticketId = ticketId;
 		this.title = title;
@@ -82,6 +88,7 @@ public class Ticket {
 		this.category_id = category_id;
 		this.priority_id = priority_id;
 		this.creator = creator;
+		this.assignedUser = assignedUser;
 		this.status = status;
 		this.photoURL = photoURL;
 		this.categories = categories;
@@ -89,7 +96,7 @@ public class Ticket {
 	}
 
 	
-	public Ticket(Long ticketId, String title, String description, Category category_id, Priority priority_id, User creator, String status,
+	public Ticket(Long ticketId, String title, String description, Category category_id, Priority priority_id, User creator, User assignedUser, String status,
 			String photoURL, Set<Category> categories) {
 		super();
 		this.ticketId = ticketId;
@@ -98,6 +105,7 @@ public class Ticket {
 		this.category_id = category_id;
 		this.priority_id = priority_id;
 		this.creator = creator;
+		this.assignedUser = assignedUser;
 		this.status = status;
 		this.photoURL = photoURL;
 		this.categories = categories;
@@ -149,6 +157,14 @@ public class Ticket {
 
 	public void setCreator(User creator) {
 		this.creator = creator;
+	}
+
+	public User getAssignedUser() {
+		return assignedUser;
+	}
+
+	public void setAssignedUser(User assignedUser) {
+		this.assignedUser = assignedUser;
 	}
 
 	public String getStatus() {
