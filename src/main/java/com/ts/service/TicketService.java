@@ -36,7 +36,6 @@ public class TicketService {
 	}
 	
     public List<Ticket> getTicketsForInternalUser(Long userId) {
-        // Assuming you are using the email as a unique identifier for users
         User internalUser = userService.getUserById(userId);
 
         if (internalUser == null || !internalUser.getRoles().stream()

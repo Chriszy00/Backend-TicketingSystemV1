@@ -52,4 +52,9 @@ public class Admin_UserController {
 	public List<Ticket> getAllTickets() {
 		return ticketRepository.findAll();
 	}
+	
+	@GetMapping("/userDetails/{id}")
+	User getUserById(@PathVariable Long id) {
+		return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+	}
 }

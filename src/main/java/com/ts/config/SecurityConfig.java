@@ -75,6 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .antMatchers("/api/categories").permitAll()
                         .antMatchers("/ticket/management/{id}/resolved").permitAll()
                         .antMatchers("/ticket/management/{id}/assigned").permitAll()
+                        .antMatchers("/ticket/management/internal-user-tickets").permitAll()
                         .antMatchers("/user/management/allTickets").permitAll()
                         .antMatchers("/ticket/management/assignTicket/{ticketId}").permitAll()
                         .antMatchers("/api/web").permitAll()
