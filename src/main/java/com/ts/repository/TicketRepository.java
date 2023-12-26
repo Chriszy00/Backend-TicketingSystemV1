@@ -19,4 +19,9 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>{
 	@Query("DELETE FROM Ticket t WHERE t.creator.id = :userId")
 	void deleteByCreatorUserId(@Param("userId") Long userId);
 
+//	@Query("SELECT t FROM Ticket t WHERE t.ticketId = :ticketId")
+//	Ticket getById(Ticket ticketId);
+
+	Ticket getTicketByTicketId(Long ticketId);
+
 }

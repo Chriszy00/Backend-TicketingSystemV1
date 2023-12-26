@@ -1,10 +1,12 @@
 package com.ts.controller;
 
-import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.ts.entity.*;
+import com.ts.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,24 +15,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ts.dto.ApiResponse;
 import com.ts.dto.TicketRequest;
-import com.ts.entity.Category;
-import com.ts.entity.CategoryName;
-import com.ts.entity.Ticket;
-import com.ts.entity.User;
 import com.ts.exception.TicketNotFoundException;
-import com.ts.repository.CategoryRepository;
-import com.ts.repository.TicketRepository;
-import com.ts.repository.UserRepository;
 import com.ts.service.TicketService;
 
 @RestController
@@ -42,6 +31,12 @@ public class TicketController {
 	UserRepository userRepository;
 
 	@Autowired
+	CommentRepository commentRepository;
+
+	@Autowired
+	ReplyRepository replyRepository;
+
+	@Autowired
 	TicketRepository ticketRepository;
 
 	@Autowired
@@ -50,6 +45,62 @@ public class TicketController {
 	private TicketService ticketService;
 
 	private static final Logger log = LoggerFactory.getLogger(TicketController.class);
+
+	@GetMapping("/{ticketId}")
+	public ResponseEntity<Ticket> fetchTicket(@PathVariable Long ticketId) {
+		System.out.println("Ticket Fetched");
+		Ticket ticket = ticketRepository.getTicketByTicketId(ticketId);
+			return ResponseEntity.ok(ticket);
+	}
+
+	@GetMapping("/{ticketId}/comments")
+	public ResponseEntity<List<Comment>> fetchComments(@PathVariable Long ticketId) {
+		Ticket ticket = ticketRepository.getTicketByTicketId(ticketId);
+		List<Comment> comments = commentRepository.getCommentsByTicket(ticket);
+		System.out.println("Comments Fetched");
+		return ResponseEntity.ok(comments);
+	}
+
+	@GetMapping("/comment/{commentId}")
+	public ResponseEntity<List<Reply>> fetchReplies(@PathVariable Long commentId) {
+		Comment comment = commentRepository.getCommentById(commentId);
+		List<Reply> replies = replyRepository.getRepliesByComment(comment);
+//		List<Reply> replies = replyRepository.getByCommentId(commentId);
+		System.out.println("Replies Fetched");
+		return ResponseEntity.ok(replies);
+	}
+
+	@GetMapping("/comment/{commentId}/reply")
+	public ResponseEntity<List<Reply>> fetchMyReplies(@PathVariable Long commentId) {
+//		Comment comment = commentRepository.getCommentById(commentId);
+//		List<Reply> replies = replyRepository.getRepliesByComment(comment);
+		List<Reply> replies = replyRepository.getByCommentId(commentId);
+		System.out.println("Replies Fetched");
+		return ResponseEntity.ok(replies);
+	}
+
+
+	@PostMapping("/{ticketId}/comment")
+	public String comment(@PathVariable Long ticketId, @RequestBody Comment comment){
+		comment.setTicket(comment.getTicket());
+		// comment.setTicket(ticketRepository.findById(ticketId).get());
+		comment.setDate(java.time.LocalDateTime.now().toString());
+		comment.setUser(comment.getUser());
+		commentRepository.save(comment);
+		return "Comment have been commented successfully";
+	}
+
+	@PostMapping("/comment/{commentId}/reply")
+	public String reply(@PathVariable Long commentId, @RequestBody Reply reply){
+		Comment comment = commentRepository.getCommentById(commentId);
+		reply.setComment(comment);
+//		reply.setComment(reply.getComment());
+		// comment.setTicket(ticketRepository.findById(ticketId).get());
+		reply.setDate(java.time.LocalDateTime.now().toString());
+		reply.setUser(reply.getUser());
+		replyRepository.save(reply);
+		return "Reply have been replied successfully";
+	}
 
 	@PostMapping("/complaint")
 	public ResponseEntity<?> submitTicket(@Valid @RequestBody TicketRequest ticketRequest,
